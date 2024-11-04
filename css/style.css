@@ -1,0 +1,25 @@
+body{
+    background-color: black;
+}
+.links ul li , i{
+    cursor: pointer;
+}
+.logo{
+    width: 50px;
+}
+.sidebar
+{
+    z-index: 9999;
+}
+
+.box-layer{
+    width: 100%;
+    height: 100%;
+    background-color: #f9f6f6ca;
+    top: 100%;
+    transition: .5s;
+}
+
+.meal:hover .box-layer{
+    top: 0;
+}
