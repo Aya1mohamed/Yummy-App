@@ -43,10 +43,10 @@ function displaySearch() {
     searchBox.innerHTML = `
     <div class=" py-4 ">
         <div class=" py-3 ">
-            <input onkeyup="searchByName(this.value)" class="form-control bg-transparent text-white" type="text" placeholder="Search By Name">
+            <input onkeydown="searchByName(this.value)" class="form-control bg-transparent text-white" type="text" placeholder="Search By Name">
         </div>
         <div class=" py-3">
-            <input onkeyup="searchByFLetter(this.value)" maxlength="1" class="form-control bg-transparent text-white" type="text" placeholder="Search By First Letter">
+            <input onkeydown="searchByFLetter(this.value)" maxlength="1" class="form-control bg-transparent text-white" type="text" placeholder="Search By First Letter">
         </div>
     </div>`
     content.innerHTML = "";
@@ -190,38 +190,34 @@ function displayIngredients(arr) {
 
 function displayMealDetails(meal) {
     searchBox.innerHTML = "";
-    let ingredients = ``
+    let ingredients = "";
     for (let i = 1; i <= 20; i++) {
-        if (meal[`strIngredient${i}`]) {
-            ingredients += `<li class="alert alert-info m-2 p-1">${meal[`strMeasure${i}`]} ${meal[`strIngredient${i}`]}</li>`
+        const ingredient = meal[`strIngredient${i}`];
+        const measure = meal[`strMeasure${i}`];
+        if (ingredient) {
+            ingredients += `<li class="alert alert-info m-2 p-1">${measure} ${ingredient}</li>`;
         }
     }
-    let tags = meal.strTags?.split(",")
-    if (!tags) tags = []
-    let tagsStr = ''
-    for (let i = 0; i < tags.length; i++) {
-        tagsStr += `
-        <li class="alert alert-danger m-2 p-1">${tags[i]}</li>`
-    }
-    let MealBox = `
-    <div class="col-md-4">
-                <img class="w-100 rounded-3" src="${meal.strMealThumb}"
-                    alt="">
-                    <h2>${meal.strMeal}</h2>
-            </div>
-            <div class="col-md-8 text-white">
-                <h2>Instructions</h2>
-                <p>${meal.strInstructions}</p>
-                <h3><span class="fw-bolder">Area : </span>${meal.strArea}</h3>
-                <h3><span class="fw-bolder">Category : </span>${meal.strCategory}</h3>
-                <h3>Recipes :</h3>
-                <ul class="list-unstyled d-flex g-3 flex-wrap">${ingredients}</ul>
-                <h3>Tags :</h3>
-                <ul class="list-unstyled d-flex g-3 flex-wrap">${tagsStr}</ul>
+    const tags = meal.strTags ? meal.strTags.split(",") : [];
+    const tagsStr = tags.map(tag => `<li class="alert alert-danger m-2 p-1">${tag}</li>`).join("");
 
-                <a target="_blank" href="${meal.strSource}" class="btn btn-success">Source</a>
-                <a target="_blank" href="${meal.strYoutube}" class="btn btn-danger">Youtube</a>
-            </div>`
+    const MealBox = `
+        <div class="col-md-4">
+            <img class="w-100 rounded-3" src="${meal.strMealThumb}" alt="">
+            <h2>${meal.strMeal}</h2>
+        </div>
+        <div class="col-md-8 text-white">
+            <h2>Instructions</h2>
+            <p>${meal.strInstructions}</p>
+            <h3><span class="fw-bolder">Area :</span> ${meal.strArea}</h3>
+            <h3><span class="fw-bolder">Category :</span> ${meal.strCategory}</h3>
+            <h3>Recipes :</h3>
+            <ul class="list-unstyled d-flex g-3 flex-wrap">${ingredients}</ul>
+            <h3>Tags :</h3>
+            <ul class="list-unstyled d-flex g-3 flex-wrap">${tagsStr}</ul>
+            <a target="_blank" href="${meal.strSource}" class="btn btn-success">Source</a>
+            <a target="_blank" href="${meal.strYoutube}" class="btn btn-danger">Youtube</a>
+        </div>`;
 
     content.innerHTML = MealBox;
 }
